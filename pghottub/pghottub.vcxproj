@@ -88,6 +88,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="client.cpp" />
     <ClCompile Include="hot_tub.cpp" />
     <ClCompile Include="listener.cpp" />
     <ClCompile Include="main.cpp" />
@@ -100,8 +101,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="client.h" />
     <ClInclude Include="hot_tub.h" />
     <ClInclude Include="listener.h" />
+    <ClInclude Include="postgres.h" />
     <ClInclude Include="tcp_listener.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

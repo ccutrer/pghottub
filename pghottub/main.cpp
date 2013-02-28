@@ -20,11 +20,12 @@ static int daemonMain(int argc, char *argv[])
 {
     try {
         IOManager ioManager;
-        HotTub hotTub;
+        HotTub hotTub(ioManager);
         Daemon::onTerminate.connect(boost::bind(&HotTub::stop, &hotTub));
 
         TcpListener tcpListener(ioManager, "*", 6432, hotTub);
 
+        ioManager.stop();
         return 0;
     } catch (...) {
         std::cerr << boost::current_exception_diagnostic_information() << std::endl;

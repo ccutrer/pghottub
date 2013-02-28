@@ -4,13 +4,19 @@
 
 #include "pghottub/hot_tub.h"
 
+#include <mordor/scheduler.h>
 #include <mordor/streams/stream.h>
 
+#include "pghottub/client.h"
 #include "pghottub/listener.h"
 
 using namespace Mordor;
 
 namespace PgHotTub {
+
+HotTub::HotTub(Scheduler &scheduler)
+    : m_scheduler(scheduler)
+{}
 
 void
 HotTub::stop()
@@ -30,6 +36,9 @@ HotTub::addListener(Listener &listener)
 void
 HotTub::acceptConnection(Stream::ptr stream)
 {
+    Client::ptr client(new Client(stream));
+    m_clients.insert(client);
+    m_scheduler.schedule(boost::bind(&Client::run, client));
 }
 
 }
