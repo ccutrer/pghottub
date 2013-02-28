@@ -4,10 +4,13 @@
 
 #include <iostream>
 
-#include "mordor/config.h"
-#include "mordor/daemon.h"
-#include "mordor/iomanager.h"
-#include "mordor/main.h"
+#include <mordor/config.h>
+#include <mordor/daemon.h>
+#include <mordor/iomanager.h>
+#include <mordor/main.h>
+
+#include "pghottub/hot_tub.h"
+#include "pghottub/tcp_listener.h"
 
 using namespace Mordor;
 
@@ -17,6 +20,11 @@ static int daemonMain(int argc, char *argv[])
 {
     try {
         IOManager ioManager;
+        HotTub hotTub;
+        Daemon::onTerminate.connect(boost::bind(&HotTub::stop, &hotTub));
+
+        TcpListener tcpListener(ioManager, "*", 6432, hotTub);
+
         return 0;
     } catch (...) {
         std::cerr << boost::current_exception_diagnostic_information() << std::endl;

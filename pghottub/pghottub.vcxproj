@@ -88,13 +88,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="hot_tub.cpp" />
+    <ClCompile Include="listener.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="tcp_listener.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\mordor\mordor\mordor.vcxproj">
       <Project>{feac089a-cc93-49c3-8f22-a9ab96f6273a}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="hot_tub.h" />
+    <ClInclude Include="listener.h" />
+    <ClInclude Include="tcp_listener.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
