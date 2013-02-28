@@ -1,0 +1,3 @@
+[submodule "mordor"]
+	path = mordor
+	url = git://github.com/ccutrer/mordor.git
