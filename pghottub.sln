@@ -1,0 +1,45 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pghottub", "pghottub\pghottub.vcxproj", "{E751F1AE-C20B-4C67-B22A-083FE2108A0F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{FEAC089A-CC93-49C3-8F22-A9AB96F6273A} = {FEAC089A-CC93-49C3-8F22-A9AB96F6273A}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mordor", "mordor\mordor\mordor.vcxproj", "{FEAC089A-CC93-49C3-8F22-A9AB96F6273A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E751F1AE-C20B-4C67-B22A-083FE2108A0F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E751F1AE-C20B-4C67-B22A-083FE2108A0F}.Debug|Win32.Build.0 = Debug|Win32
+		{E751F1AE-C20B-4C67-B22A-083FE2108A0F}.Debug|x64.ActiveCfg = Debug|Win32
+		{E751F1AE-C20B-4C67-B22A-083FE2108A0F}.Release|Win32.ActiveCfg = Release|Win32
+		{E751F1AE-C20B-4C67-B22A-083FE2108A0F}.Release|Win32.Build.0 = Release|Win32
+		{E751F1AE-C20B-4C67-B22A-083FE2108A0F}.Release|x64.ActiveCfg = Release|Win32
+		{FEAC089A-CC93-49C3-8F22-A9AB96F6273A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FEAC089A-CC93-49C3-8F22-A9AB96F6273A}.Debug|Win32.Build.0 = Debug|Win32
+		{FEAC089A-CC93-49C3-8F22-A9AB96F6273A}.Debug|x64.ActiveCfg = Debug|x64
+		{FEAC089A-CC93-49C3-8F22-A9AB96F6273A}.Debug|x64.Build.0 = Debug|x64
+		{FEAC089A-CC93-49C3-8F22-A9AB96F6273A}.Release|Win32.ActiveCfg = Release|Win32
+		{FEAC089A-CC93-49C3-8F22-A9AB96F6273A}.Release|Win32.Build.0 = Release|Win32
+		{FEAC089A-CC93-49C3-8F22-A9AB96F6273A}.Release|x64.ActiveCfg = Release|x64
+		{FEAC089A-CC93-49C3-8F22-A9AB96F6273A}.Release|x64.Build.0 = Release|x64
+		{A5020D4B-0E75-4DF9-9EEC-501394520228}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A5020D4B-0E75-4DF9-9EEC-501394520228}.Debug|Win32.Build.0 = Debug|Win32
+		{A5020D4B-0E75-4DF9-9EEC-501394520228}.Debug|x64.ActiveCfg = Debug|x64
+		{A5020D4B-0E75-4DF9-9EEC-501394520228}.Debug|x64.Build.0 = Debug|x64
+		{A5020D4B-0E75-4DF9-9EEC-501394520228}.Release|Win32.ActiveCfg = Release|Win32
+		{A5020D4B-0E75-4DF9-9EEC-501394520228}.Release|Win32.Build.0 = Release|Win32
+		{A5020D4B-0E75-4DF9-9EEC-501394520228}.Release|x64.ActiveCfg = Release|x64
+		{A5020D4B-0E75-4DF9-9EEC-501394520228}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
