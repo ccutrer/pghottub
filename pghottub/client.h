@@ -17,7 +17,7 @@ public:
     struct InvalidProtocolException : virtual Mordor::Exception {};
 
 public:
-    Client(boost::shared_ptr<Mordor::Stream> stream);
+    Client(HotTub &hotTub, boost::shared_ptr<Mordor::Stream> stream);
 
     void run();
 

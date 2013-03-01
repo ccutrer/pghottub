@@ -14,8 +14,9 @@ using namespace Mordor;
 
 namespace PgHotTub {
 
-HotTub::HotTub(Scheduler &scheduler)
-    : m_scheduler(scheduler)
+HotTub::HotTub(Scheduler &scheduler, SSL_CTX *sslCtx)
+    : m_scheduler(scheduler),
+      m_sslCtx(sslCtx)
 {}
 
 void
@@ -36,9 +37,15 @@ HotTub::addListener(Listener &listener)
 void
 HotTub::acceptConnection(Stream::ptr stream)
 {
-    Client::ptr client(new Client(stream));
+    Client::ptr client(new Client(*this, stream));
     m_clients.insert(client);
     m_scheduler.schedule(boost::bind(&Client::run, client));
+}
+
+SSL_CTX *
+HotTub::sslCtx()
+{
+    return m_sslCtx;
 }
 
 }

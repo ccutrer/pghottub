@@ -11,6 +11,8 @@ class Stream;
 
 namespace PgHotTub {
 
+class HotTub;
+
 class Connection : boost::noncopyable
 {
 public:
@@ -29,12 +31,13 @@ protected:
     };
 
 protected:
-    Connection(boost::shared_ptr<Mordor::Stream> stream);
+    Connection(HotTub &hotTub, boost::shared_ptr<Mordor::Stream> stream);
 
     void readV2Message(V2MessageType &type, Mordor::Buffer &message);
     void readV3Message(V3MessageType &type, Mordor::Buffer &message);
 
 protected:
+    HotTub &m_hotTub;
     boost::shared_ptr<Mordor::Stream> m_stream;
 };
 

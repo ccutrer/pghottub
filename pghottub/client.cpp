@@ -9,7 +9,11 @@
 #include <mordor/endian.h>
 #include <mordor/log.h>
 #include <mordor/streams/buffer.h>
+#include <mordor/streams/buffered.h>
+#include <mordor/streams/ssl.h>
 #include <mordor/streams/stream.h>
+
+#include "pghottub/hot_tub.h"
 
 using namespace Mordor;
 
@@ -17,8 +21,8 @@ static Logger::ptr g_log = Log::lookup("pghottub:client");
 
 namespace PgHotTub {
 
-Client::Client(Stream::ptr stream)
-    : Connection(stream)
+Client::Client(HotTub &hotTub, Stream::ptr stream)
+    : Connection(hotTub, stream)
 {}
 
 void
@@ -43,9 +47,25 @@ Client::startup()
         if (message.readAvailable() != 0)
             MORDOR_THROW_EXCEPTION(InvalidProtocolException());
 
-        // TODO: wrap in SSL
-        m_stream->write("N", 1u);
-        m_stream->flush();
+        if (m_hotTub.sslCtx()) {
+            m_stream->write("S", 1u);
+            m_stream->flush();
+
+            BufferedStream::ptr bufferedStream = boost::dynamic_pointer_cast<BufferedStream>(m_stream);
+            // optimize the buffering on top of the socket for SSL packets
+            bufferedStream->allowPartialReads(true);
+            bufferedStream->flushMultiplesOfBuffer(true);
+            bufferedStream->bufferSize(16384);
+
+            SSLStream::ptr sslStream(new SSLStream(m_stream, false, true, m_hotTub.sslCtx()));
+            sslStream->accept();
+            sslStream->flush();
+            m_stream.reset(new BufferedStream(sslStream));
+        } else {
+            m_stream->write("N", 1u);
+            m_stream->flush();
+        }
+
         readV2Message(type, message);
     }
 

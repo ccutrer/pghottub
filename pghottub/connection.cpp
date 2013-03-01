@@ -12,7 +12,8 @@ using namespace Mordor;
 
 namespace PgHotTub {
 
-Connection::Connection(Stream::ptr stream)
+Connection::Connection(HotTub &hotTub, Stream::ptr stream)
+    : m_hotTub(hotTub)
 {
     MORDOR_ASSERT(stream->supportsRead());
     MORDOR_ASSERT(stream->supportsWrite());

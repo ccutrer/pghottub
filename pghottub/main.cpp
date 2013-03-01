@@ -8,6 +8,7 @@
 #include <mordor/daemon.h>
 #include <mordor/iomanager.h>
 #include <mordor/main.h>
+#include <mordor/streams/ssl.h>
 
 #include "pghottub/hot_tub.h"
 #include "pghottub/tcp_listener.h"
@@ -20,7 +21,8 @@ static int daemonMain(int argc, char *argv[])
 {
     try {
         IOManager ioManager;
-        HotTub hotTub(ioManager);
+        boost::shared_ptr<SSL_CTX> sslCtx(SSLStream::generateSelfSignedCertificate());
+        HotTub hotTub(ioManager, sslCtx.get());
         Daemon::onTerminate.connect(boost::bind(&HotTub::stop, &hotTub));
 
         TcpListener tcpListener(ioManager, "*", 6432, hotTub);
