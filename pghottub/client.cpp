@@ -6,14 +6,10 @@
 
 #include <map>
 
-#include <mordor/assert.h>
 #include <mordor/endian.h>
 #include <mordor/log.h>
-#include <mordor/streams/buffered.h>
-#include <mordor/streams/limited.h>
+#include <mordor/streams/buffer.h>
 #include <mordor/streams/stream.h>
-
-#include "postgres.h"
 
 using namespace Mordor;
 
@@ -22,12 +18,8 @@ static Logger::ptr g_log = Log::lookup("pghottub:client");
 namespace PgHotTub {
 
 Client::Client(Stream::ptr stream)
-{
-    MORDOR_ASSERT(stream->supportsRead());
-    MORDOR_ASSERT(stream->supportsWrite());
-    MORDOR_ASSERT(!stream->supportsSeek());
-    m_stream.reset(new BufferedStream(stream));
-}
+    : Connection(stream)
+{}
 
 void
 Client::run()
@@ -42,38 +34,37 @@ Client::run()
 void
 Client::startup()
 {
-    unsigned int length;
-    m_stream->read(&length, 4u);
-    length = byteswap(length);
-    // TODO: disconnect unless length >= 8
+    V2MessageType type;
+    Buffer message;
 
-    unsigned int protocolVersion;
-    m_stream->read(&protocolVersion, 4u);
-    protocolVersion = byteswap(protocolVersion);
+    readV2Message(type, message);
 
-    if (protocolVersion == SSL_REQUEST) {
+    if (type == SSL_REQUEST) {
+        if (message.readAvailable() != 0)
+            MORDOR_THROW_EXCEPTION(InvalidProtocolException());
+
         // TODO: wrap in SSL
         m_stream->write("N", 1u);
         m_stream->flush();
-        startup();
-        return;
+        readV2Message(type, message);
     }
-    if (protocolVersion != 0x00030000) {
-        // TODO: disconnect unless version 3
-    }
+
+    if (type != STARTUP_REQUEST_V3)
+        MORDOR_THROW_EXCEPTION(InvalidProtocolException());
 
     std::map<std::string, std::string> parameters;
     while (true) {
-        std::string name = m_stream->getDelimited('\0');
+        std::string name = message.getDelimited('\0');
         if (name.length() == 1)
             break;
         name.resize(name.size() - 1);
-        std::string value = m_stream->getDelimited('\0', false, false);
+        std::string value = message.getDelimited('\0', false, false);
 
         parameters[name] = value;
     }
 
-    // TODO: check stream is at EOF
+    if (message.readAvailable() != 0)
+        MORDOR_THROW_EXCEPTION(InvalidProtocolException());
 }
 
 }
