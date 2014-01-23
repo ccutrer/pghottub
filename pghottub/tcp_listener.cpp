@@ -4,6 +4,7 @@
 
 #include "pghottub/tcp_listener.h"
 
+#include <mordor/iomanager.h>
 #include <mordor/socket.h>
 #include <mordor/streams/socket.h>
 
